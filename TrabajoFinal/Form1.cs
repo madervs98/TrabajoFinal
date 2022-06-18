@@ -19,9 +19,16 @@ namespace TrabajoFinal
 
         private void entradaDeDiarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EntradaDiario Diario = new EntradaDiario();
-            Diario.MdiParent = this;
-            Diario.Show();
+            EntradaDiario EntradadeDiario = new EntradaDiario();
+            EntradadeDiario.MdiParent = this;
+            EntradadeDiario.Show();
+        }
+
+        private void calculoDeNotasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 CalculoNotas = new Form2();
+            CalculoNotas.MdiParent = this;
+            CalculoNotas.Show();
         }
     }
 }
