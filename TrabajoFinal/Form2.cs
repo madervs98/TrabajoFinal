@@ -32,19 +32,19 @@ namespace TrabajoFinal
             }
             if(string.IsNullOrEmpty(tb_nombre.Text))
             {
-                MessageBox.Show("Por favor, no dejar campo 'Código' vacio.");
+                MessageBox.Show("Por favor, no dejar campo 'Nombre' vacio.");
                 tb_nombre.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(tb_apellido.Text))
             {
-                MessageBox.Show("Por favor, no dejar campo 'Código' vacio.");
+                MessageBox.Show("Por favor, no dejar campo 'Apellido' vacio.");
                 tb_apellido.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(tb_nota.Text))
             {
-                MessageBox.Show("Por favor, no dejar campo 'Código' vacio.");
+                MessageBox.Show("Por favor, no dejar campo 'Nota' vacio.");
                 tb_nota.Focus();
                 return;
             }
@@ -85,40 +85,49 @@ namespace TrabajoFinal
             tb_apellido.Clear();
             tb_nota.Clear();
             tb_matricula.Focus();
-
+            ActualizarDGV();
         }
+        private void ActualizarDGV()
+        {
+            tb_reprobados.Text = "0";
+            tb_aprobadosA.Text = "0";
+            tb_aprobadosB.Text = "0";
+            tb_aprobadosC.Text = "0";
 
+            foreach (DataGridViewRow row in dgv_datos.Rows)
+            {
+                if (Convert.ToInt32(row.Cells["Column4"].Value.ToString()) < 69)
+                {
+                    tb_reprobados.Text = (Convert.ToInt32(tb_reprobados.Text.ToString()) + 1).ToString();
+                }
+                else if (Convert.ToInt32(row.Cells["Column4"].Value.ToString()) >= 90)
+                {
+                    tb_aprobadosA.Text = (Convert.ToInt32(tb_aprobadosA.Text.ToString()) + 1).ToString();
+                }
+                else if (Convert.ToInt32(row.Cells["Column4"].Value.ToString()) >= 80)
+                {
+                    tb_aprobadosB.Text = (Convert.ToInt32(tb_aprobadosB.Text.ToString()) + 1).ToString();
+                }
+                else if (Convert.ToInt32(row.Cells["Column4"].Value.ToString()) >= 70)
+                {
+                    tb_aprobadosC.Text = (Convert.ToInt32(tb_aprobadosC.Text.ToString()) + 1).ToString();
+                }
+
+            }
+        
+        }
         //Eliminar
         private void btn_eliminar_Click(object sender, EventArgs e)
         {
-            int resultado=0;
-            if (dgv_datos.CurrentRow.Index != -1)
+            if (dgv_datos.SelectedCells.Count == 1)
             {
-                if (dgv_datos.CurrentRow.Cells[2].Value.ToString().Trim() != "")
-                {
-                    resultado = int.Parse(tb_reprobados.Text) - int.Parse(dgv_datos.CurrentRow.Cells[2].Value.ToString());
-                    tb_reprobados.Text = resultado.ToString();
-                }
-                else if (dgv_datos.CurrentRow.Cells[3].Value.ToString().Trim() != "")
-                {
-                    resultado = int.Parse(tb_aprobadosC.Text) - int.Parse(dgv_datos.CurrentRow.Cells[3].Value.ToString());
-                    tb_aprobadosC.Text = resultado.ToString();
-                }
-                else if (dgv_datos.CurrentRow.Cells[4].Value.ToString().Trim() != "")
-                {
-                    resultado = int.Parse(tb_aprobadosB.Text) - int.Parse(dgv_datos.CurrentRow.Cells[4].Value.ToString());
-                    tb_aprobadosB.Text = resultado.ToString();
-                }
-                else if (dgv_datos.CurrentRow.Cells[5].Value.ToString().Trim() != "")
-                {
-                    resultado = int.Parse(tb_aprobadosA.Text) - int.Parse(dgv_datos.CurrentRow.Cells[5].Value.ToString());
-                    tb_aprobadosA.Text = resultado.ToString();
-                }
-            }
-            dgv_datos.Rows.RemoveAt(dgv_datos.CurrentRow.Index);
-        }
+                
+                dgv_datos.Rows.RemoveAt(dgv_datos.CurrentRow.Index);
+                ActualizarDGV();
 
-        //Crear contador para cantidad de alumnos aprobados
+            }
+
+        }
 
     }
 }
